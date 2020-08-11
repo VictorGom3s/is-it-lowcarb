@@ -1,0 +1,33 @@
+@import "./colors";
+@import "./fonts";
+
+input[type="text"] {
+  background: none;
+  border: none;
+  border-bottom: 1px solid $mainColor;
+  width: 70%;
+  @media (max-width: 600px) {
+    width: 90%;
+  }
+  font-size: 2rem;
+  @media (max-width: 600px) {
+    font-size: 1.75rem;
+  }
+  color: $textColor;
+  margin-bottom: 100px;
+}
+
+#search {
+  display: flex;
+  justify-content: center;
+}
+
+footer {
+  width: 100%;
+  border-top: 1px solid #574f4f;
+  display: flex;
+  p {
+    display: block;
+    margin: 15px auto;
+  }
+}

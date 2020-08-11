@@ -1,0 +1,36 @@
+@import "./colors";
+@use "./fonts";
+
+html {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: $bgColor;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: calc(100% - 70px);
+  margin: 0 auto;
+}
+
+h1,
+h2,
+p,
+a {
+  color: $textColor;
+}
+
+a {
+  transition: 0.2s;
+  &:hover {
+    color: $mainColor;
+  }
+}
