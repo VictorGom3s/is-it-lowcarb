@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import * as apiKeys from "../api-keys.json";
 
 const Axios = axios.create({
   baseURL: "https://trackapi.nutritionix.com/v2",
   headers: {
-    "x-app-id": "c937f8d2",
+    "x-app-id": apiKeys["APP_ID"],
+    "x-app-key": apiKeys["API_KEY"],
     "x-remote-user-id": 0,
-    "x-app-key": "fbed950f6236f6164b21346cedeb6492",
   },
 });
 
