@@ -13,24 +13,47 @@ const Axios = axios.create({
 
 const Search = () => {
   const [showResult, setShowResult] = useState(false);
-  const [isLC, setIsLC] = useState("Yep!");
+  const [isLowcarb, setIsLowcarb] = useState("Yep!");
   const [searchTerm, setSearchTerm] = useState("");
-  const [apiKey, setApiKey] = useState("");
+  const [memo, setMemo] = useState({});
 
   const resultDiv = (
     <div className="result">
-      <p>{isLC}</p>
+      <p>{isLowcarb}</p>
     </div>
   );
 
+  const isLoading = () => {
+    setIsLowcarb("Just a sec...");
+  };
+
+  const notFound = () => {
+    setIsLowcarb("Not found!");
+  };
+
   const handleSearch = async (e) => {
-    e.preventDefault();
     try {
-      const { data: res } = await Axios.post("/natural/nutrients", {
-        query: `100 grams of ${searchTerm}`,
-      });
-      isItLowCarb(res.foods[0]);
+      e.preventDefault();
+
+      setShowResult(true);
+      isLoading();
+
+      if (!memo[searchTerm]) {
+        const { data: res } = await Axios.post("/natural/nutrients", {
+          query: `100 grams of ${searchTerm}`,
+        });
+
+        const newObj = { ...memo };
+        newObj[searchTerm] = res.foods[0];
+        setMemo(newObj);
+        return isItLowCarb(res.foods[0]);
+      }
+
+      setTimeout(() => {
+        return isItLowCarb(memo[searchTerm]);
+      }, 400);
     } catch (error) {
+      notFound();
       console.error(error);
     }
   };
@@ -38,12 +61,13 @@ const Search = () => {
   const isItLowCarb = (food) => {
     const netCarbs = food.nf_total_carbohydrate - food.nf_dietary_fiber;
 
-    if (netCarbs > 15 || food.nf_sugars > 5) setIsLC("Nope!");
-    else if (netCarbs >= 10 && netCarbs <= 15 && food.nf_sugars < 5)
-      setIsLC("Maybe. You can eat it, but with cautious.");
-    else setIsLC("Yep!");
+    if (netCarbs > 15 || food.nf_sugars > 5) {
+      return setIsLowcarb("Nope!");
+    } else if (netCarbs >= 10 && netCarbs <= 15 && food.nf_sugars < 5) {
+      return setIsLowcarb("Maybe. You can eat it, but with cautious.");
+    }
 
-    setShowResult(true);
+    setIsLowcarb("Yep!");
   };
 
   return (
