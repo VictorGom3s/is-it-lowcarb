@@ -15,6 +15,7 @@ const Search = () => {
   const [showResult, setShowResult] = useState(false);
   const [isLC, setIsLC] = useState("Yep!");
   const [searchTerm, setSearchTerm] = useState("");
+  const [apiKey, setApiKey] = useState("");
 
   const resultDiv = (
     <div className="result">
@@ -38,6 +39,8 @@ const Search = () => {
     const netCarbs = food.nf_total_carbohydrate - food.nf_dietary_fiber;
 
     if (netCarbs > 15 || food.nf_sugars > 5) setIsLC("Nope!");
+    else if (netCarbs >= 10 && netCarbs <= 15 && food.nf_sugars < 5)
+      setIsLC("Maybe. You can eat it, but with cautious.");
     else setIsLC("Yep!");
 
     setShowResult(true);
