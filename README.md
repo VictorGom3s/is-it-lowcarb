@@ -1,7 +1,6 @@
 <h1 align="center">Is it Low-carb? 🚧</h1>
 
 ![license](https://img.shields.io/github/license/victorgom3s/is-it-lowcarb)
-![tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2FVictorGom3s%2Fis-it-lowcarb)
 ![stars](https://img.shields.io/github/stars/VictorGom3s/is-it-lowcarb)
 ![stars](https://img.shields.io/github/forks/VictorGom3s/is-it-lowcarb)
 ![stars](https://img.shields.io/github/issues/VictorGom3s/is-it-lowcarb)
