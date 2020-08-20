@@ -10,7 +10,7 @@
 
 ## See it running live 🎉
 
-<i>Soon</i>
+[Is It Low-carb?](https://isitlowcarb.netlify.app/)
 
 ## Usage
 
