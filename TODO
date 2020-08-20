@@ -1,9 +1,0 @@
-Tasks:
-  ☐ Alerts
-    ☐ API Limit
-    ☐ Error
-  ☐ Loading Spinner after a search
-  ☐ Create an algorithm to determine if the food is lowcarb.
-  ☐ Deploy
-  ✔ Consider using FatSecret API. @done(20-08-15 13:59)
-    ☐ Will use it.
