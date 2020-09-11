@@ -19,7 +19,7 @@ form {
       font-size: 1.75rem;
     }
     color: $textColor;
-    margin-bottom: 100px;
+    margin-bottom: 10px;
   }
 }
 
@@ -40,6 +40,11 @@ form {
     p {
       padding: 20px 30px;
     }
+  }
+  a {
+    display: block;
+    margin-bottom: 50px;
+    align-self: center;
   }
 }
 

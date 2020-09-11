@@ -3,12 +3,7 @@ import axios from "axios";
 import * as apiKeys from "../api-keys.json";
 
 const Axios = axios.create({
-  baseURL: "https://trackapi.nutritionix.com/v2",
-  headers: {
-    "x-app-id": apiKeys["APP_ID"],
-    "x-app-key": apiKeys["API_KEY"],
-    "x-remote-user-id": 0,
-  },
+  baseURL: "https://isitlowcarbapi.herokuapp.com/food/",
 });
 
 const Search = () => {
@@ -39,14 +34,26 @@ const Search = () => {
       isLoading();
 
       if (!memo[searchTerm]) {
-        const { data: res } = await Axios.post("/natural/nutrients", {
-          query: `100 grams of ${searchTerm}`,
-        });
+        const { data: res } = await Axios.post(`${searchTerm}`);
 
         const newObj = { ...memo };
-        newObj[searchTerm] = res.foods[0];
+        newObj[searchTerm] = res;
         setMemo(newObj);
-        return isItLowCarb(res.foods[0]);
+
+        if (!res.isCached) {
+          await Axios.post("new/save", {
+            food: searchTerm,
+            id: res.id,
+            lowcarb: isItLowCarb(res),
+          });
+        }
+        console.log(res);
+        if (res.lowcarb === "1") return setIsLowcarb("Yep!");
+        if (res.lowcarb === "2")
+          return setIsLowcarb("Maybe. You can eat it, but with cautious.");
+        if (res.lowcarb === "0") return setIsLowcarb("Nope!");
+
+        return isItLowCarb(res);
       }
 
       setTimeout(() => {
@@ -59,15 +66,18 @@ const Search = () => {
   };
 
   const isItLowCarb = (food) => {
-    const netCarbs = food.nf_total_carbohydrate - food.nf_dietary_fiber;
+    const netCarbs = food.carbs - food.fiber;
 
-    if (netCarbs > 15 || food.nf_sugars > 5) {
-      return setIsLowcarb("Nope!");
+    if (netCarbs > 15 || food.sugar > 5) {
+      setIsLowcarb("Nope!");
+      return 0;
     } else if (netCarbs >= 10 && netCarbs <= 15 && food.nf_sugars < 5) {
-      return setIsLowcarb("Maybe. You can eat it, but with cautious.");
+      setIsLowcarb("Maybe. You can eat it, but with cautious.");
+      return 2;
     }
 
     setIsLowcarb("Yep!");
+    return 1;
   };
 
   return (
@@ -81,6 +91,7 @@ const Search = () => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
+      <a href="https://platform.fatsecret.com">Powered by FatSecret</a>
       {showResult ? resultDiv : ""}
     </section>
   );
